@@ -1,0 +1,13 @@
+de/mrtesz/cAdvancements/utils/AdvancementManager.class
+de/mrtesz/cAdvancements/utils/ConnectionManager.class
+de/mrtesz/cAdvancements/commands/TabCompleter.class
+de/mrtesz/cAdvancements/commands/CAdvancementsCommand.class
+de/mrtesz/cAdvancements/CAdvancements.class
+de/mrtesz/cAdvancements/utils/ItemBuilder.class
+de/mrtesz/cAdvancements/listeners/AdvancementListener.class
+de/mrtesz/cAdvancements/utils/CustomInventoryHolder.class
+de/mrtesz/cAdvancements/commands/AdvancementCommand.class
+de/mrtesz/cAdvancements/listeners/PlayerInventoryClickListener.class
+de/mrtesz/cAdvancements/utils/Init.class
+de/mrtesz/cAdvancements/listeners/PlayerJoinQuitListener.class
+de/mrtesz/cAdvancements/listeners/AdvancementListener$1.class

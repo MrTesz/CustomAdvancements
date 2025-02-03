@@ -1,0 +1,13 @@
+name: CAdvancements
+version: '1.0'
+main: de.mrtesz.cAdvancements.CAdvancements
+api-version: '1.21'
+authors: [ Mr_Tesz ]
+
+commands:
+  advancements:
+    aliases:
+      - showadvancements
+  cadvancement:
+    aliases:
+      - customadvancements
