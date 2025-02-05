@@ -36,11 +36,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>shaded</shadedClassifierName>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.mariadb.jdbc</pattern>
+                                    <pattern>org.mariadb</pattern>
                                     <shadedPattern>de.mrtesz.libs.mariadb</shadedPattern>
                                 </relocation>
                             </relocations>
