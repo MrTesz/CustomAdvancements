@@ -21,7 +21,17 @@ public class Init {
     private static AdvancementManager advancementManager;
 
     public Init(CAdvancements cAdvancements, AdvancementManager advancementManager) {
-        this.connectionManager = new ConnectionManager();
+        cAdvancements.saveDefaultConfig();
+        if(!cAdvancements.getConfig().contains("database.url")) {
+            cAdvancements.getConfig().set("database.url", "");
+        }
+        if(!cAdvancements.getConfig().contains("database.user")) {
+            cAdvancements.getConfig().set("database.user", "");
+        }
+        if(!cAdvancements.getConfig().contains("database.password")) {
+            cAdvancements.getConfig().set("database.password", "");
+        }
+        this.connectionManager = new ConnectionManager(cAdvancements);
         this.cAdvancements = cAdvancements;
         Init.advancementManager = new AdvancementManager(connectionManager);
 

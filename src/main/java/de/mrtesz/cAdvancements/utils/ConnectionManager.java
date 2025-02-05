@@ -1,5 +1,6 @@
 package de.mrtesz.cAdvancements.utils;
 
+import de.mrtesz.cAdvancements.CAdvancements;
 import org.bukkit.Bukkit;
 
 import java.io.FileInputStream;
@@ -11,29 +12,17 @@ import java.util.Properties;
 
 public class ConnectionManager {
 
+    private CAdvancements cAdvancements;
     private Connection connection;
-    private String url = "";
-    private String user = "";
-    private String password = "";
+    private String url = cAdvancements.getConfig().getString("database.url");
+    private String user = cAdvancements.getConfig().getString("database.user");
+    private String password = cAdvancements.getConfig().getString("database.password");
+
+    public ConnectionManager(CAdvancements cAdvancements) {
+        this.cAdvancements = cAdvancements;
+    }
 
     public void connect() {
-        Properties properties = new Properties();
-
-        try {
-            properties.load(new FileInputStream("config.properties"));
-
-            url = properties.getProperty("database.url");
-            user = properties.getProperty("database.user");
-            password = properties.getProperty("database.password");
-
-            // Verwende die geladenen Werte
-            System.out.println("URL: " + url);
-            System.out.println("User: " + user);
-            System.out.println("Password: " + password);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         try {
             if (connection == null || connection.isClosed()) {
                 Class.forName("org.mariadb.jdbc.Driver");

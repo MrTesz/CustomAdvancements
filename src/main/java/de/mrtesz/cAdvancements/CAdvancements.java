@@ -14,7 +14,7 @@ public final class CAdvancements extends JavaPlugin {
     @Override
     public void onEnable() {
         System.out.println("[CAdvancements] Hello :D");
-        connectionManager = new ConnectionManager();
+        connectionManager = new ConnectionManager(this);
 
         new Init(this, new AdvancementManager(connectionManager));
     }
