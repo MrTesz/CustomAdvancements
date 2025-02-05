@@ -14,9 +14,6 @@ public class ConnectionManager {
 
     private CAdvancements cAdvancements;
     private Connection connection;
-    private String url = cAdvancements.getConfig().getString("database.url");
-    private String user = cAdvancements.getConfig().getString("database.user");
-    private String password = cAdvancements.getConfig().getString("database.password");
 
     public ConnectionManager(CAdvancements cAdvancements) {
         this.cAdvancements = cAdvancements;
@@ -26,7 +23,9 @@ public class ConnectionManager {
         try {
             if (connection == null || connection.isClosed()) {
                 Class.forName("org.mariadb.jdbc.Driver");
-                connection = DriverManager.getConnection(url, user, password);
+                connection = DriverManager.getConnection(cAdvancements.getConfig().getString("database.url"),
+                        cAdvancements.getConfig().getString("database.user"),
+                        cAdvancements.getConfig().getString("database.password"));
                 System.out.println("[CAdvancements] Connected");
             }
         } catch (SQLException | ClassNotFoundException e) {

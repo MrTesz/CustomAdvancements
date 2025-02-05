@@ -21,7 +21,6 @@ public class Init {
     private static AdvancementManager advancementManager;
 
     public Init(CAdvancements cAdvancements, AdvancementManager advancementManager) {
-        cAdvancements.saveDefaultConfig();
         if(!cAdvancements.getConfig().contains("database.url")) {
             cAdvancements.getConfig().set("database.url", "");
         }

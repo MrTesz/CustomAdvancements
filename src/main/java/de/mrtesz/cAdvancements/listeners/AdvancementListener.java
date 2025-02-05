@@ -15,12 +15,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdvancementListener implements Listener {
 
-    private Map<Material, Integer> requiredItems = new HashMap<>();
+    private Map<Material, List<Integer>> requiredItems = new HashMap<>();
     private AdvancementManager advancementManager;
     private Init init;
     private boolean formatBoolean = true;
@@ -28,14 +30,15 @@ public class AdvancementListener implements Listener {
     public AdvancementListener(Init init, AdvancementManager advancementManager) {
         this.init = init;
         this.advancementManager = advancementManager;
-        requiredItems.put(Material.BRICK, 2); // BRICK mit CustomModelData 2 = Floose Key
+        requiredItems.put(Material.BRICK, Arrays.asList(2, 6)); // BRICK mit CMD 2 = Floose Key Brick mit CMD 6 = Engel Key
+        requiredItems.put(Material.NETHER_BRICK, Arrays.asList(2)); // Netherbrick mit CMD 2 = Legendärer Key
     }
 
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         String command = event.getMessage();
         Player player = event.getPlayer();
-        int countNeeded = 199; // Quantität oft vom Command -1
+            int countNeeded = 199; // Quantität vom Command -1
 
         String advancement = "homeless";
         String commandNeed = "home";
@@ -163,12 +166,15 @@ public class AdvancementListener implements Listener {
         Map<Material, Boolean> foundItems = new HashMap<>();
 
         for (ItemStack item : inventory.getContents()) {
-            if(item != null) {
+            if (item != null) {
                 if (item.hasItemMeta() && item.getItemMeta().hasCustomModelData()) {
                     Material material = item.getType();
                     int customModelData = item.getItemMeta().getCustomModelData();
-                    if (requiredItems.containsKey(material) && customModelData == requiredItems.get(material)) {
-                        foundItems.put(material, true);
+                    if (requiredItems.containsKey(material)) {
+                        List<Integer> customModelDataList = requiredItems.get(material);
+                        if (customModelDataList.contains(customModelData)) {
+                            foundItems.put(material, true);
+                        }
                     }
                 }
             }
