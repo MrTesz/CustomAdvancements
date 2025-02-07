@@ -1,24 +1,22 @@
 package de.mrtesz.cAdvancements.listeners;
 
-import de.mrtesz.cAdvancements.CAdvancements;
 import de.mrtesz.cAdvancements.utils.AdvancementManager;
+import de.mrtesz.cAdvancements.utils.Base64Manager;
 import de.mrtesz.cAdvancements.utils.Init;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdvancementListener implements Listener {
 
@@ -188,5 +186,4 @@ public class AdvancementListener implements Listener {
 
         return true;
     }
-
 }

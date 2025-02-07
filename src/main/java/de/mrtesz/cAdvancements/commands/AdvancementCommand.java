@@ -39,7 +39,7 @@ public class AdvancementCommand implements CommandExecutor {
                 player.sendMessage("§cDu hast keine Berechtigung für diesen Befehl.");
                 return false;
             }
-            Inventory advancementInv = Bukkit.createInventory(null, 9 * 6, "§bDeine Erfolge:");
+            Inventory advancementInv = Bukkit.createInventory(new CustomInventoryHolder(), 9 * 6, "§bDeine Erfolge:");
             // Initialize
             if (formatBoolean) {
                 advancementInv.setItem(53, new ItemBuilder(Material.SPECTRAL_ARROW).setDisplayname("Next Page").setCustomModelData(100).build());
@@ -212,7 +212,7 @@ public class AdvancementCommand implements CommandExecutor {
                 ChatColor chatColor = advancementManager.getRarity(advancement);
                 boolean status = advancementManager.getAdvancement(player.getUniqueId(), advancement);
 
-                advancementInv.setItem(8, new ItemBuilder(Material.ELYTRA).setCustomModelData(2).setDisplayname(chatColor +
+                advancementInv.setItem(8, new ItemBuilder(Material.ELYTRA).setDisplayname(chatColor +
                         advancementManager.getName(advancement)).setLore(chatColor +
                         advancementManager.getDescription(advancement)).build());
 

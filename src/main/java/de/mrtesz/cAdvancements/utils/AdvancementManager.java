@@ -4,11 +4,15 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.units.qual.A;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -22,11 +26,14 @@ public class AdvancementManager implements Listener {
     private HashMap<UUID, HashMap<String, Boolean>> playerAdvancements;
     private HashMap<UUID, HashMap<String, Integer>> playerAdvancementCounter;
     private ConnectionManager connectionManager;
+    private Random random = new Random();
+    private Base64Manager base64Manager;
 
     public AdvancementManager(ConnectionManager connectionManager) {
         playerAdvancements = new HashMap<>();
         playerAdvancementCounter = new HashMap<>();
         this.connectionManager = connectionManager;
+        base64Manager = new Base64Manager();
     }
 
     public void addAdvancementCount(UUID uuid, String advancement) {
@@ -158,6 +165,7 @@ public class AdvancementManager implements Listener {
         } else {
             Bukkit.getPlayer(uuid).playSound(Bukkit.getPlayer(uuid).getLocation(), Sound.UI_TOAST_IN, 1, 1);
         }
+        grandPlayerRandomReward(Bukkit.getPlayer(uuid));
     }
 
     public void saveAdvancements(UUID uuid) {
@@ -292,5 +300,31 @@ public class AdvancementManager implements Listener {
             advancements.add("ghg");
         }
         return advancements;
+    }
+
+    private void grandPlayerRandomReward(Player player) {
+        ItemStack item = new ItemBuilder(Material.MUSIC_DISC_11).build();
+        if(Init.getInstance().getConfig().contains("rewards.item")) {
+            item = base64Manager.itemFromBase64(Init.getInstance().getConfig().getString("rewards.item"));
+        }
+
+        int choice = random.nextInt(2);
+        player.sendMessage("§aDu hast eine Belohnung für dein Advancement bekommen!");
+        if (choice == 0) {
+            int xp = random.nextInt(201) + 100;
+            player.giveExp(xp);
+            player.sendMessage("§aDu hast " + xp + " XP erhalten!");
+        } else {
+            if (!item.getType().equals(Material.MUSIC_DISC_11)) {
+                item.setAmount(random.nextInt(5) + 1);
+
+                player.getInventory().addItem(item);
+                player.sendMessage("§aDu hast ein Belohnungs-Gegenstand bekommen!");
+            } else {
+                int xp = random.nextInt(201) + 100;
+                player.giveExp(xp);
+                player.sendMessage("§aDu hast " + xp + " XP erhalten!");
+            }
+        }
     }
 }

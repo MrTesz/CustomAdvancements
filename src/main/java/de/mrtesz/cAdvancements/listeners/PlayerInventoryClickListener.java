@@ -2,6 +2,7 @@ package de.mrtesz.cAdvancements.listeners;
 
 import de.mrtesz.cAdvancements.CAdvancements;
 import de.mrtesz.cAdvancements.utils.AdvancementManager;
+import de.mrtesz.cAdvancements.utils.CustomInventoryHolder;
 import de.mrtesz.cAdvancements.utils.Init;
 import de.mrtesz.cAdvancements.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public class PlayerInventoryClickListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
+        if(!(event.getInventory().getHolder() instanceof CustomInventoryHolder)) return;
         if(event.getInventory().getItem(53) == null) return;
         if(!(event.getInventory().getItem(53).equals(initialize))) return;
         event.setCancelled(true);

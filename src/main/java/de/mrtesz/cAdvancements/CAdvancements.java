@@ -24,7 +24,7 @@ public final class CAdvancements extends JavaPlugin {
         for(Player player : Bukkit.getOnlinePlayers()) {
             player.kickPlayer("§cServer is restarting...");
         }
-        System.out.println("[CAdvancements] Saved all Player Advancements");
+        Bukkit.getLogger().info("Saved all Player Advancements");
         connectionManager.disconnect();
         System.out.println("[CAdvancements] Bye :C");
     }

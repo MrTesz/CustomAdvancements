@@ -3,6 +3,7 @@ package de.mrtesz.cAdvancements.utils;
 import de.mrtesz.cAdvancements.CAdvancements;
 import de.mrtesz.cAdvancements.commands.AdvancementCommand;
 import de.mrtesz.cAdvancements.commands.CAdvancementsCommand;
+import de.mrtesz.cAdvancements.commands.SaveRewardItemCommand;
 import de.mrtesz.cAdvancements.commands.TabCompleter;
 import de.mrtesz.cAdvancements.listeners.AdvancementListener;
 import de.mrtesz.cAdvancements.listeners.PlayerInventoryClickListener;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 
 public class Init {
 
-    private CAdvancements cAdvancements;
+    private static CAdvancements cAdvancements;
     private ConnectionManager connectionManager;
     private static AdvancementManager advancementManager;
 
@@ -54,6 +55,7 @@ public class Init {
         cAdvancements.getCommand("cadvancement").setTabCompleter(new TabCompleter(advancementManager));
         cAdvancements.getCommand("advancements").setExecutor(new AdvancementCommand(advancementManager));
         cAdvancements.getCommand("cadvancement").setExecutor(new CAdvancementsCommand(advancementManager));
+        cAdvancements.getCommand("saverewarditem").setExecutor(new SaveRewardItemCommand(this));
     }
 
     private void setInfoTable() {
@@ -173,7 +175,7 @@ public class Init {
         }
     }
 
-    public CAdvancements getInstance() {
+    public static CAdvancements getInstance() {
         return cAdvancements;
     }
 

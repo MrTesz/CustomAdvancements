@@ -11,3 +11,6 @@ commands:
   cadvancement:
     aliases:
       - customadvancements
+  saverewarditem:
+    aliases:
+      - customadvanementssaverewarditem
