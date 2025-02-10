@@ -11,3 +11,9 @@ commands:
   cadvancement:
     aliases:
       - customadvancements
+  casaveitem:
+    aliases:
+      - customadvanementssaverewarditem
+  cagiveheart:
+    aliases:
+      - customadvancementsgiveheart

@@ -5,9 +5,13 @@ de/mrtesz/cAdvancements/commands/CAdvancementsCommand.class
 de/mrtesz/cAdvancements/CAdvancements.class
 de/mrtesz/cAdvancements/utils/ItemBuilder.class
 de/mrtesz/cAdvancements/listeners/AdvancementListener.class
+de/mrtesz/cAdvancements/commands/HeartCommand.class
 de/mrtesz/cAdvancements/utils/CustomInventoryHolder.class
 de/mrtesz/cAdvancements/commands/AdvancementCommand.class
 de/mrtesz/cAdvancements/listeners/PlayerInventoryClickListener.class
 de/mrtesz/cAdvancements/utils/Init.class
+de/mrtesz/cAdvancements/listeners/HeartForMeListener.class
 de/mrtesz/cAdvancements/listeners/PlayerJoinQuitListener.class
+de/mrtesz/cAdvancements/commands/SaveItemCommand.class
 de/mrtesz/cAdvancements/listeners/AdvancementListener$1.class
+de/mrtesz/cAdvancements/utils/Base64Manager.class

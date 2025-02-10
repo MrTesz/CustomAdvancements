@@ -123,7 +123,6 @@ public class AdvancementManager implements Listener {
         }
         Bukkit.getPlayer(executor).sendMessage("§cDem Spieler hat dieses Advancement nun nicht mehr.");
     }
-
     public void grantAdvancement(UUID uuid, String advancement, String executor) {
         if(Bukkit.getPlayer(uuid) == null) {
             if(!executor.equalsIgnoreCase("sys")) {
@@ -212,7 +211,6 @@ public class AdvancementManager implements Listener {
             }
         }
     }
-
     public void saveOldAdvancements(UUID uuid) {
         try {
             if (connectionManager.getConnection() == null || connectionManager.getConnection().isClosed()) {
@@ -298,6 +296,7 @@ public class AdvancementManager implements Listener {
             advancements.add("notAlone");
             advancements.add("trash");
             advancements.add("ghg");
+            advancements.add("heartForMe");
         }
         return advancements;
     }
@@ -309,7 +308,7 @@ public class AdvancementManager implements Listener {
         }
 
         int choice = random.nextInt(2);
-        player.sendMessage("§aDu hast eine Belohnung für dein Advancement bekommen!");
+        player.sendMessage("§aDu hast eine Belohnung für deinen Erfolg bekommen!");
         if (choice == 0) {
             int xp = random.nextInt(201) + 100;
             player.giveExp(xp);
@@ -319,7 +318,7 @@ public class AdvancementManager implements Listener {
                 item.setAmount(random.nextInt(5) + 1);
 
                 player.getInventory().addItem(item);
-                player.sendMessage("§aDu hast ein Belohnungs-Gegenstand bekommen!");
+                player.sendMessage("§aDu hast einen Belohnungs-Gegenstand bekommen!");
             } else {
                 int xp = random.nextInt(201) + 100;
                 player.giveExp(xp);

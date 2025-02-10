@@ -1,9 +1,7 @@
 package de.mrtesz.cAdvancements.commands;
 
-import de.mrtesz.cAdvancements.CAdvancements;
-import de.mrtesz.cAdvancements.utils.AdvancementManager;
-import de.mrtesz.cAdvancements.utils.CustomInventoryHolder;
-import de.mrtesz.cAdvancements.utils.ItemBuilder;
+import com.mojang.authlib.GameProfile;
+import de.mrtesz.cAdvancements.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,14 +11,25 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 
 public class AdvancementCommand implements CommandExecutor {
 
     private boolean formatBoolean = true;
     private AdvancementManager advancementManager;
+    private Base64Manager base64Manager;
 
-    public AdvancementCommand(AdvancementManager advancementManager) {
+    public AdvancementCommand(AdvancementManager advancementManager, Base64Manager base64Manager) {
         this.advancementManager = advancementManager;
+        this.base64Manager = base64Manager;
     }
 
     @Override
@@ -274,6 +283,37 @@ public class AdvancementCommand implements CommandExecutor {
                             .setLore(chatColor + "Geschafft: ✗").build());
                 }
             }
+            // heartForMe
+            if(formatBoolean) {
+                String advancement = "heartForMe";
+
+                ChatColor chatColor = advancementManager.getRarity(advancement);
+                boolean status = advancementManager.getAdvancement(player.getUniqueId(), advancement);
+                ItemStack heart = new ItemBuilder(Material.MUSIC_DISC_11).build();
+                if(Init.getInstance().getConfig().contains("items.heart")) {
+                    String base64Heart = Init.getInstance().getConfig().getString("items.heart");
+                    heart = base64Manager.itemFromBase64(base64Heart);
+                    ItemMeta meta = heart.getItemMeta();
+                    meta.setCustomModelData(2);
+                    meta.setDisplayName(chatColor + advancementManager.getName(advancement));
+                    meta.setLore(List.of(chatColor + advancementManager.getDescription(advancement)));
+                    heart.setItemMeta(meta);
+                }
+
+                advancementInv.setItem(19, heart);
+
+                if (status) {
+                    chatColor = ChatColor.GREEN;
+                    advancementInv.setItem(28, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setCustomModelData(123098).
+                            setDisplayname(chatColor + advancementManager.getName(advancement))
+                            .setLore(chatColor + "Geschafft: ✓").build());
+                } else {
+                    chatColor = ChatColor.RED;
+                    advancementInv.setItem(28, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setCustomModelData(123098).
+                            setDisplayname(chatColor + advancementManager.getName(advancement))
+                            .setLore(chatColor + "Geschafft: ✗").build());
+                }
+            }
             player.openInventory(advancementInv);
             player.sendMessage("§aDu hast deine Erfolge geöffnet!");
         }
@@ -518,6 +558,35 @@ public class AdvancementCommand implements CommandExecutor {
                 } else {
                     chatColor = ChatColor.RED;
                     advancementInv.setItem(27, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setCustomModelData(123098).
+                            setDisplayname(chatColor + advancementManager.getName(advancement))
+                            .setLore(chatColor + "Geschafft: ✗").build());
+                }
+            }
+            // heartForMe
+            if(formatBoolean) {
+                String advancement = "heartForMe";
+
+                ChatColor chatColor = advancementManager.getRarity(advancement);
+                boolean status = advancementManager.getAdvancement(target.getUniqueId(), advancement);
+                ItemStack heart = new ItemBuilder(Material.MUSIC_DISC_11).build();
+                if(Init.getInstance().getConfig().contains("items.heart")) {
+                    String base64Heart = Init.getInstance().getConfig().getString("items.heart");
+                    heart = base64Manager.itemFromBase64(base64Heart);
+                    ItemMeta meta = heart.getItemMeta();
+                    meta.setCustomModelData(2);
+                    meta.setDisplayName(chatColor + advancementManager.getName(advancement));
+                    meta.setLore(List.of(chatColor + advancementManager.getDescription(advancement)));
+                    heart.setItemMeta(meta);
+                }
+
+                if (status) {
+                    chatColor = ChatColor.GREEN;
+                    advancementInv.setItem(28, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setCustomModelData(123098).
+                            setDisplayname(chatColor + advancementManager.getName(advancement))
+                            .setLore(chatColor + "Geschafft: ✓").build());
+                } else {
+                    chatColor = ChatColor.RED;
+                    advancementInv.setItem(28, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setCustomModelData(123098).
                             setDisplayname(chatColor + advancementManager.getName(advancement))
                             .setLore(chatColor + "Geschafft: ✗").build());
                 }

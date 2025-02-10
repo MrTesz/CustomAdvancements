@@ -23,7 +23,7 @@ public class ItemBuilder {
         }
     }
 
-    public ItemBuilder setDisplayname(String s){
+    public ItemBuilder setDisplayname(String s) {
         itemMeta.setDisplayName(s);
         return this;
     }
