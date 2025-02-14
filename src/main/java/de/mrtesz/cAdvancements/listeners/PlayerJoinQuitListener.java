@@ -9,10 +9,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerJoinQuitListener implements Listener {
 
-    private AdvancementManager advancementManager;
+    private final AdvancementManager advancementManager;
 
-    public PlayerJoinQuitListener(AdvancementManager advancementManager) {
-        this.advancementManager = Init.getAdvancementManager();
+    public PlayerJoinQuitListener(Init init) {
+        this.advancementManager = init.getAdvancementManager();
     }
 
     @EventHandler

@@ -25,15 +25,17 @@ public class AdvancementManager implements Listener {
 
     private HashMap<UUID, HashMap<String, Boolean>> playerAdvancements;
     private HashMap<UUID, HashMap<String, Integer>> playerAdvancementCounter;
-    private ConnectionManager connectionManager;
-    private Random random = new Random();
-    private Base64Manager base64Manager;
+    private final ConnectionManager connectionManager;
+    private final Random random = new Random();
+    private final Base64Manager base64Manager;
+    private final Init init;
 
-    public AdvancementManager(ConnectionManager connectionManager) {
+    public AdvancementManager(ConnectionManager connectionManager, Init init) {
         playerAdvancements = new HashMap<>();
         playerAdvancementCounter = new HashMap<>();
         this.connectionManager = connectionManager;
         base64Manager = new Base64Manager();
+        this.init = init;
     }
 
     public void addAdvancementCount(UUID uuid, String advancement) {
@@ -69,7 +71,6 @@ public class AdvancementManager implements Listener {
                     }
                 }
             }
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,7 +86,6 @@ public class AdvancementManager implements Listener {
                     return resultSet.getString("description");
                 }
             }
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,11 +101,27 @@ public class AdvancementManager implements Listener {
                     return resultSet.getString("name");
                 }
             }
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return "ERROR";
+    }
+    public String getID(String name) {
+        return switch (ChatColor.stripColor(name)) {
+            case "Süchtig nach Keys" -> "allKeys";
+            case "Trautes Heim Glück allein!" -> "homeless";
+            case "Der schnellere Weg zum Spawn" -> "fastSpawn";
+            case "In Shopping-Laune" -> "fastShopping";
+            case "Ein zweites Inventar" -> "ownEC";
+            case "Kampfsucht" -> "fastFighting";
+            case "Hilfe!" -> "needHelp";
+            case "In Gesellschaft!" -> "notAlone";
+            case "Müll is Müll!" -> "trash";
+            case "GHG" -> "ghg";
+            case "Hast du ein Herz für mich?" -> "heartForMe";
+
+            default -> "ERROR";
+        };
     }
 
     public void revokeAdvancement(UUID uuid, String advancement, String executor) {
@@ -187,7 +203,6 @@ public class AdvancementManager implements Listener {
                 statement.setBoolean(3, owned);
                 statement.setBoolean(4, owned);
                 statement.executeUpdate();
-                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -205,7 +220,6 @@ public class AdvancementManager implements Listener {
                 statement.setInt(3, count);
                 statement.setInt(4, count);
                 statement.executeUpdate();
-                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -232,7 +246,6 @@ public class AdvancementManager implements Listener {
                         owned = resultSet.getBoolean("owned");
                     }
                 }
-                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -255,7 +268,6 @@ public class AdvancementManager implements Listener {
                         count = resultSet.getInt("count");
                     }
                 }
-                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -283,7 +295,8 @@ public class AdvancementManager implements Listener {
             advancements.add("notAlone");
             advancements.add("trash");
 
-        } else if(usage.equalsIgnoreCase("all")) {
+        }
+        else if(usage.equalsIgnoreCase("all")) {
             // alle
             advancements.add("allKeys");
 
@@ -301,10 +314,26 @@ public class AdvancementManager implements Listener {
         return advancements;
     }
 
+    public Material getMaterial(String advancement) {
+        return switch (advancement) {
+            case "allKeys" -> Material.BRICK;
+            case "homeless" -> Material.OAK_STAIRS;
+            case "fastSpawn" -> Material.END_CRYSTAL;
+            case "fastShopping" -> Material.GOLD_NUGGET;
+            case "ownEC" -> Material.ENDER_CHEST;
+            case "fastFighting" -> Material.IRON_SWORD;
+            case "needHelp" -> Material.LIGHT;
+            case "notAlone" -> Material.ELYTRA;
+            case "trash" -> Material.DIRT;
+            case "ghg" -> Material.EXPERIENCE_BOTTLE;
+            default -> Material.AIR;
+        };
+    }
+
     private void grandPlayerRandomReward(Player player) {
         ItemStack item = new ItemBuilder(Material.MUSIC_DISC_11).build();
-        if(Init.getInstance().getConfig().contains("rewards.item")) {
-            item = base64Manager.itemFromBase64(Init.getInstance().getConfig().getString("rewards.item"));
+        if(init.getInstance().getConfig().contains("rewards.item")) {
+            item = base64Manager.itemFromBase64(init.getInstance().getConfig().getString("rewards.item"));
         }
 
         int choice = random.nextInt(2);

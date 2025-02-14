@@ -20,10 +20,9 @@ import java.util.*;
 
 public class AdvancementListener implements Listener {
 
-    private Map<Material, List<Integer>> requiredItems = new HashMap<>();
-    private AdvancementManager advancementManager;
-    private Init init;
-    private boolean formatBoolean = true;
+    private final Map<Material, List<Integer>> requiredItems = new HashMap<>();
+    private final AdvancementManager advancementManager;
+    private final Init init;
 
     public AdvancementListener(Init init, AdvancementManager advancementManager) {
         this.init = init;
@@ -49,6 +48,7 @@ public class AdvancementListener implements Listener {
         }
 
         // warps
+        boolean formatBoolean = true;
         if(formatBoolean) {
             advancement = "fastSpawn";
             commandNeed = "warp";

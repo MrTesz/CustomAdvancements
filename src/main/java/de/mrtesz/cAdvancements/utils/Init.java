@@ -7,20 +7,22 @@ import de.mrtesz.cAdvancements.listeners.HeartForMeListener;
 import de.mrtesz.cAdvancements.listeners.PlayerInventoryClickListener;
 import de.mrtesz.cAdvancements.listeners.PlayerJoinQuitListener;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.plugin.PluginManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 public class Init {
 
-    private static CAdvancements cAdvancements;
-    private ConnectionManager connectionManager;
-    private static AdvancementManager advancementManager;
+    private final CAdvancements cAdvancements;
+    private final ConnectionManager connectionManager;
+    private final AdvancementManager advancementManager;
 
-    public Init(CAdvancements cAdvancements, AdvancementManager advancementManager) {
+    public Init(CAdvancements cAdvancements) {
         if(!cAdvancements.getConfig().contains("database.url")) {
             cAdvancements.getConfig().set("database.url", "");
         }
@@ -32,7 +34,7 @@ public class Init {
         }
         this.connectionManager = new ConnectionManager(cAdvancements);
         this.cAdvancements = cAdvancements;
-        Init.advancementManager = new AdvancementManager(connectionManager);
+        this.advancementManager = new AdvancementManager(connectionManager, this);
 
         connectionManager.connect();
         createTables();
@@ -40,22 +42,23 @@ public class Init {
 
         registerEvents();
         registerCommands();
+        Objects.requireNonNull(Bukkit.getWorld("world")).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
     }
 
     private void registerEvents() {
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new AdvancementListener(this, advancementManager), cAdvancements);
-        manager.registerEvents(new PlayerJoinQuitListener(advancementManager), cAdvancements);
-        manager.registerEvents(new PlayerInventoryClickListener(), cAdvancements);
-        manager.registerEvents(new AdvancementManager(connectionManager), cAdvancements);
+        manager.registerEvents(new PlayerJoinQuitListener(this), cAdvancements);
+        manager.registerEvents(new PlayerInventoryClickListener(advancementManager), cAdvancements);
+        manager.registerEvents(new AdvancementManager(connectionManager, this), cAdvancements);
         manager.registerEvents(new HeartForMeListener(advancementManager), cAdvancements);
     }
 
     private void registerCommands() {
         cAdvancements.getCommand("cadvancement").setTabCompleter(new TabCompleter(advancementManager));
-        cAdvancements.getCommand("advancements").setExecutor(new AdvancementCommand(advancementManager, new Base64Manager()));
+        cAdvancements.getCommand("advancements").setExecutor(new AdvancementCommand(advancementManager, new Base64Manager(), this));
         cAdvancements.getCommand("cadvancement").setExecutor(new CAdvancementsCommand(advancementManager));
-        cAdvancements.getCommand("casaveitem").setExecutor(new SaveItemCommand(new Base64Manager()));
+        cAdvancements.getCommand("casaveitem").setExecutor(new SaveItemCommand(new Base64Manager(), this));
         cAdvancements.getCommand("cagiveheart").setExecutor(new HeartCommand());
     }
 
@@ -134,7 +137,6 @@ public class Init {
                         break;
                 }
                 statement.executeUpdate();
-                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -207,11 +209,11 @@ public class Init {
         }
     }
 
-    public static CAdvancements getInstance() {
+    public CAdvancements getInstance() {
         return cAdvancements;
     }
 
-    public static AdvancementManager getAdvancementManager() {
+    public AdvancementManager getAdvancementManager() {
         return advancementManager;
     }
 }

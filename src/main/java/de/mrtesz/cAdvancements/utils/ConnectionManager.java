@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class ConnectionManager {
 
-    private CAdvancements cAdvancements;
+    private final CAdvancements cAdvancements;
     private Connection connection;
 
     public ConnectionManager(CAdvancements cAdvancements) {

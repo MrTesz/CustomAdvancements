@@ -1,6 +1,5 @@
 package de.mrtesz.cAdvancements;
 
-import de.mrtesz.cAdvancements.utils.AdvancementManager;
 import de.mrtesz.cAdvancements.utils.ConnectionManager;
 import de.mrtesz.cAdvancements.utils.Init;
 import org.bukkit.Bukkit;
@@ -13,10 +12,9 @@ public final class CAdvancements extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("[CAdvancements] Hello :D");
         connectionManager = new ConnectionManager(this);
 
-        new Init(this, new AdvancementManager(connectionManager));
+        new Init(this);
     }
 
     @Override
@@ -26,6 +24,5 @@ public final class CAdvancements extends JavaPlugin {
         }
         Bukkit.getLogger().info("Saved all Player Advancements");
         connectionManager.disconnect();
-        System.out.println("[CAdvancements] Bye :C");
     }
 }

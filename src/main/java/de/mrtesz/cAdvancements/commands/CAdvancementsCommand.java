@@ -1,6 +1,5 @@
 package de.mrtesz.cAdvancements.commands;
 
-import de.mrtesz.cAdvancements.CAdvancements;
 import de.mrtesz.cAdvancements.utils.AdvancementManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,11 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
-import java.util.List;
 
 public class CAdvancementsCommand implements CommandExecutor {
 
-    private AdvancementManager advancementManager;
+    private final AdvancementManager advancementManager;
 
     public CAdvancementsCommand(AdvancementManager advancementManager) {
         this.advancementManager = advancementManager;

@@ -12,10 +12,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class SaveItemCommand implements CommandExecutor {
 
-    private Base64Manager base64Manager;
+    private final Base64Manager base64Manager;
+    private final Init init;
 
-    public SaveItemCommand(Base64Manager base64Manager) {
+    public SaveItemCommand(Base64Manager base64Manager, Init init) {
         this.base64Manager = base64Manager;
+        this.init = init;
     }
 
     @Override
@@ -37,16 +39,16 @@ public class SaveItemCommand implements CommandExecutor {
             player.sendMessage("§cDas Item kann nicht Luft sein!");
             return false;
         }
-        FileConfiguration config = Init.getInstance().getConfig();
+        FileConfiguration config = init.getInstance().getConfig();
         switch (args[0]) {
             case "reward":
                 config.set("rewards.item", base64Manager.itemToBase64(item));
-                Init.getInstance().saveConfig();
+                init.getInstance().saveConfig();
                 player.sendMessage("§a" + item + " ist nun der Erfolg-Reward!");
                 break;
             case "heart":
                 config.set("items.heart", base64Manager.itemToBase64(item));
-                Init.getInstance().saveConfig();
+                init.getInstance().saveConfig();
                 player.sendMessage("§a" + item + " ist nun das Herz-Item!");
                 break;
             default:
