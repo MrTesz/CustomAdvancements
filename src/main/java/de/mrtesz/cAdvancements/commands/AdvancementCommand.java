@@ -49,7 +49,7 @@ public class AdvancementCommand implements CommandExecutor {
             if (formatBoolean) {
                 advancementInv.setItem(53, new ItemBuilder(Material.SPECTRAL_ARROW).setDisplayname("Next Page").setCustomModelData(100).build());
             }
-            int slot = 1;
+            int slot = 0;
             for(String advancement : advancementManager.getAdvancements("all")) {
                 if(advancement.equalsIgnoreCase("heartForMe")) continue;
 
@@ -76,37 +76,6 @@ public class AdvancementCommand implements CommandExecutor {
                     slot = 18;
                 } else
                     slot++;
-            }
-            // heartForMe extra fall
-            if(formatBoolean) {
-                String advancement = "heartForMe";
-
-                ChatColor chatColor = advancementManager.getRarity(advancement);
-                boolean status = advancementManager.getAdvancement(player.getUniqueId(), advancement);
-                ItemStack heart = new ItemBuilder(Material.MUSIC_DISC_11).build();
-                if(init.getInstance().getConfig().contains("items.heart")) {
-                    String base64Heart = init.getInstance().getConfig().getString("items.heart");
-                    heart = base64Manager.itemFromBase64(base64Heart);
-                    ItemMeta meta = heart.getItemMeta();
-                    meta.setCustomModelData(2);
-                    meta.setDisplayName(chatColor + advancementManager.getName(advancement));
-                    meta.setLore(List.of(chatColor + advancementManager.getDescription(advancement)));
-                    heart.setItemMeta(meta);
-                }
-
-                advancementInv.setItem(0, heart);
-
-                if (status) {
-                    chatColor = ChatColor.GREEN;
-                    advancementInv.setItem(9, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setCustomModelData(123098).
-                            setDisplayname(chatColor + advancementManager.getName(advancement))
-                            .setLore(chatColor + "Geschafft: ✓").build());
-                } else {
-                    chatColor = ChatColor.RED;
-                    advancementInv.setItem(9, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setCustomModelData(123098).
-                            setDisplayname(chatColor + advancementManager.getName(advancement))
-                            .setLore(chatColor + "Geschafft: ✗").build());
-                }
             }
             player.openInventory(advancementInv);
             player.sendMessage("§aDu hast deine Erfolge geöffnet!");
@@ -150,35 +119,6 @@ public class AdvancementCommand implements CommandExecutor {
                             .setLore(chatColor + "Geschafft: ✗").build());
                 }
                 slot++;
-            }
-            // heartForMe
-            if(formatBoolean) {
-                String advancement = "heartForMe";
-
-                ChatColor chatColor = advancementManager.getRarity(advancement);
-                boolean status = advancementManager.getAdvancement(target.getUniqueId(), advancement);
-                ItemStack heart = new ItemBuilder(Material.MUSIC_DISC_11).build();
-                if(init.getInstance().getConfig().contains("items.heart")) {
-                    String base64Heart = init.getInstance().getConfig().getString("items.heart");
-                    heart = base64Manager.itemFromBase64(base64Heart);
-                    ItemMeta meta = heart.getItemMeta();
-                    meta.setCustomModelData(2);
-                    meta.setDisplayName(chatColor + advancementManager.getName(advancement));
-                    meta.setLore(List.of(chatColor + advancementManager.getDescription(advancement)));
-                    heart.setItemMeta(meta);
-                }
-
-                if (status) {
-                    chatColor = ChatColor.GREEN;
-                    advancementInv.setItem(28, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setCustomModelData(123098).
-                            setDisplayname(chatColor + advancementManager.getName(advancement))
-                            .setLore(chatColor + "Geschafft: ✓").build());
-                } else {
-                    chatColor = ChatColor.RED;
-                    advancementInv.setItem(28, new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setCustomModelData(123098).
-                            setDisplayname(chatColor + advancementManager.getName(advancement))
-                            .setLore(chatColor + "Geschafft: ✗").build());
-                }
             }
             player.openInventory(advancementInv);
             player.sendMessage("§aDu hast die Erfolge von " + args[0] + " geöffnet!");

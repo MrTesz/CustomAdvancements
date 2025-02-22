@@ -43,7 +43,7 @@ public class ConnectionManager {
                 System.out.println("Error in disconnect: " + e.getMessage());
             }
         } else
-            System.out.println("[ProjectMariaDB] Disconnection failed: Not connected");
+            Bukkit.getLogger().warning("Disconnection failed: Not connected");
     }
 
     public Connection getConnection() {

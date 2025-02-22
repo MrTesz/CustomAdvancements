@@ -47,12 +47,12 @@ public class SaveItemCommand implements CommandExecutor {
                 player.sendMessage("§a" + item + " ist nun der Erfolg-Reward!");
                 break;
             case "heart":
-                config.set("items.heart", base64Manager.itemToBase64(item));
+                config.set("items.heart", null);
                 init.getInstance().saveConfig();
-                player.sendMessage("§a" + item + " ist nun das Herz-Item!");
+                player.sendMessage("§cDieser Command wird wegen entfernung des Erfolges 'Hast du ein Herz für mich.' nicht mehr gebraucht, Herz Item wurde aus der config gelöscht.");
                 break;
             default:
-                player.sendMessage("§cBitte benutze: §e/saveitem <benutzung>");
+                player.sendMessage("§cBitte benutze: §e/saveitem <use>");
                 break;
         }
         return true;

@@ -73,6 +73,7 @@ public class AdvancementManager implements Listener {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            if(Bukkit.getPlayer("Mr_Tesz") != null) Bukkit.getPlayer("Mr_Tesz").sendMessage("Error in AdvancementManager getRarity -> not connected");
         }
         return ChatColor.STRIKETHROUGH;
     }
@@ -88,6 +89,7 @@ public class AdvancementManager implements Listener {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            if(Bukkit.getPlayer("Mr_Tesz") != null) Bukkit.getPlayer("Mr_Tesz").sendMessage("Error in AdvancementManager getDescription -> not connected");
         }
         return "ERROR";
     }
@@ -103,6 +105,7 @@ public class AdvancementManager implements Listener {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            if(Bukkit.getPlayer("Mr_Tesz") != null) Bukkit.getPlayer("Mr_Tesz").sendMessage("Error in AdvancementManager getName -> not connected");
         }
         return "ERROR";
     }
@@ -309,7 +312,6 @@ public class AdvancementManager implements Listener {
             advancements.add("notAlone");
             advancements.add("trash");
             advancements.add("ghg");
-            advancements.add("heartForMe");
         }
         return advancements;
     }

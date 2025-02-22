@@ -3,7 +3,6 @@ package de.mrtesz.cAdvancements.utils;
 import de.mrtesz.cAdvancements.CAdvancements;
 import de.mrtesz.cAdvancements.commands.*;
 import de.mrtesz.cAdvancements.listeners.AdvancementListener;
-import de.mrtesz.cAdvancements.listeners.HeartForMeListener;
 import de.mrtesz.cAdvancements.listeners.PlayerInventoryClickListener;
 import de.mrtesz.cAdvancements.listeners.PlayerJoinQuitListener;
 import org.bukkit.Bukkit;
@@ -51,7 +50,6 @@ public class Init {
         manager.registerEvents(new PlayerJoinQuitListener(this), cAdvancements);
         manager.registerEvents(new PlayerInventoryClickListener(advancementManager), cAdvancements);
         manager.registerEvents(new AdvancementManager(connectionManager, this), cAdvancements);
-        manager.registerEvents(new HeartForMeListener(advancementManager), cAdvancements);
     }
 
     private void registerCommands() {
@@ -127,12 +125,6 @@ public class Init {
                         statement.setString(3, "Habe 787 Level");
                         statement.setString(4, "legendary");
                         break;
-                    case "heartForMe":
-                        statement.setString(1, advancement);
-                        statement.setString(2, "Hast du ein Herz für mich?");
-                        statement.setString(3, "Gebe einem anderen Spieler ein Herz");
-                        statement.setString(4, "common");
-                        break;
                     default:
                         break;
                 }
@@ -160,7 +152,7 @@ public class Init {
         }
 
         String infoTable = "CREATE TABLE IF NOT EXISTS infoTable (" +
-                "advancement ENUM('allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg', 'heartForMe') NOT NULL, " +
+                "advancement ENUM('allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg') NOT NULL, " +
                 "name VARCHAR(255) NOT NULL, " +
                 "description VARCHAR(255) NOT NULL, " +
                 "rarity ENUM('legendary', 'rare', 'common'), " +
@@ -174,18 +166,20 @@ public class Init {
             e.printStackTrace();
         }
 
-        String alterIndoTable = "ALTER TABLE infoTable MODIFY COLUMN advancement ENUM(" +
+        /*
+         String alterInfoTable = "ALTER TABLE infoTable MODIFY COLUMN advancement ENUM(" +
                 "'allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg', 'heartForMe') NOT NULL;";
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(alterIndoTable);
+            stmt.executeUpdate(alterInfoTable);
             System.out.println("[CAdvancements] Altered Table infoTable");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+         */
 
         String playerAdvancements = "CREATE TABLE IF NOT EXISTS playerAdvancements (" +
-                "advancement ENUM('allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg', 'heartForMe') NOT NULL, " +
+                "advancement ENUM('allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg') NOT NULL, " +
                 "uuid VARCHAR(36) NOT NULL, " +
                 "owned BOOLEAN DEFAULT FALSE," +
                 "PRIMARY KEY (advancement, uuid)" +
@@ -198,6 +192,7 @@ public class Init {
             e.printStackTrace();
         }
 
+        /*
         String alterPlayerAdvancementTable = "ALTER TABLE playerAdvancements MODIFY COLUMN advancement ENUM(" +
                 "'allKeys', 'homeless', 'fastSpawn', 'fastShopping', 'fastFighting', 'ownEC', 'needHelp', 'notAlone', 'trash', 'ghg', 'heartForMe') NOT NULL;";
 
@@ -207,6 +202,7 @@ public class Init {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+         */
     }
 
     public CAdvancements getInstance() {
